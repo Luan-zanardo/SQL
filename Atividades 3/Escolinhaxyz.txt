@@ -1,0 +1,394 @@
+create table curso(
+codcurso int (5) not null,
+nome varchar(50) not null,
+sala int(5) not null,
+telefone int(10) not null,
+primary key (codcurso));
+
+create table coordenadores(
+codcoordenador int(5) not null,
+nome varchar(50) not null,
+endereco varchar(50) not null,
+cidade varchar(50) not null,
+estado varchar(50) not null,
+telefone int(10) not null,
+salario float(8,2) not null,
+codcurso int(5) not null,
+primary key (codcoordenador),
+foreign key (codcurso) references curso (codcurso));
+
+create table disciplinas(
+coddisciplina int(5) not null,
+nome varchar(50) not null,
+cargahoraria int(5) not null,
+ementa varchar(50) not null,
+codcurso int(5) not null,
+primary key(coddisciplina),
+foreign key (codcurso) references curso (codcurso));
+
+create table professores(
+codprofessor int(5) not null,
+nome varchar(50) not null,
+endereco varchar(50) not null,
+cidade varchar(50) not null,
+estado varchar(50) not null,
+telefone int(10) not null,
+escolaridade varchar(50) not null,
+salario float(8,2) not null,
+coddisciplina int(5) not null,
+primary key (codprofessor),
+foreign key (coddisciplina) references disciplinas (coddisciplina));
+
+create table alunos(
+codaluno int(5) not null,
+nome varchar(50) not null,
+endereco varchar(50) not null,
+cidade varchar(50) not null,
+estado varchar(50) not null,
+telefone int(10) not null,
+sexo varchar(50) not null,
+datanascimento date not null,
+codcurso int(5) not null,
+primary key (codaluno),
+foreign key (codcurso) references curso (codcurso));
+
+create table projetos(
+codprojeto int(5) not null,
+dataincial varchar(50) not null,
+datafinal varchar(50) not null,
+tema varchar(50) not null,
+codaluno int(5) not null,
+codprofessor int(5) not null,
+nota float (4,2) not null,
+primary key(codprojeto),
+foreign key (codaluno) references alunos (codaluno),
+foreign key (codprofessor) references professores (codprofessor));
+
+------------------------------------------------------------------
+
+insert curso (codcurso, nome, sala, telefone)
+values (1, "Administração", 1, 123);
+
+insert curso (codcurso, nome, sala, telefone)
+values (2, "Informática", 2, 345);
+
+insert curso (codcurso, nome, sala, telefone)
+values (3, "Design", 3, 567);
+
+------------------------------------------------------------------
+
+insert coordenadores (codcoordenador, nome, endereco, cidade, estado, telefone, salario, codcurso)
+values (1, "Aldaberto", "Centro", "Caravaggio", "SC", 232,1500,1);
+
+insert coordenadores (codcoordenador, nome, endereco, cidade, estado, telefone, salario, codcurso)
+values (2, "Jorge", "Centro", "Nova Veneza", "SC", 232, 1500, 2);
+
+insert coordenadores (codcoordenador, nome, endereco, cidade, estado, telefone, salario, codcurso)
+values (3, "Caue", "Centro", "Rio mania", "SC", 232, 2000, 3);
+
+------------------------------------------------------------------
+
+insert disciplinas (coddisciplina, nome, cargahoraria, ementa, codcurso)
+values (1, "Matemática Financeira", 3, "Calculos e Estatisticas", 1);
+
+insert disciplinas (coddisciplina, nome, cargahoraria, ementa, codcurso)
+values (2, "Jogos", 5, "Jogos digitais", 2);
+
+insert disciplinas (coddisciplina, nome, cargahoraria, ementa, codcurso)
+values (3, "Fotográfias", 3, "Fotográfia e iluminação", 3);
+
+------------------------------------------------------------------
+
+insert professores (codprofessor, nome, endereco, cidade, estado, telefone, escolaridade, salario, coddisciplina)
+values(1, "Flavia", "Centro", "Criciuma", "Sc", 123, "mestrado", 5000, 1);
+
+insert professores (codprofessor, nome, endereco, cidade, estado, telefone, escolaridade, salario, coddisciplina)
+values(2, "Jorge", "Centro", "Porto Alegre", "Rs", 343, "mestrado", 2000, 2);
+
+insert professores (codprofessor, nome, endereco, cidade, estado, telefone, escolaridade, salario, coddisciplina)
+values(3, "Lucas", "Centro", "Araranguá", "Sc", 153, "mestrado", 3000, 3);
+
+-----------------------------------------------------------------
+
+insert alunos (codaluno, nome, endereco, cidade, estado, telefone, sexo, datanascimento, codcurso)
+values (1, "Cauã", "Posto", "Guarulhos", "São Paulo", 123, "Masculino", "2023/01/04", 1);
+
+insert alunos (codaluno, nome, endereco, cidade, estado, telefone, sexo, datanascimento, codcurso)
+values (2, "Eduardo", "Posto", "Rio Branco", "Acre", 123, "Feminino", "2023/01/04", 2);
+
+insert alunos (codaluno, nome, endereco, cidade, estado, telefone, sexo, datanascimento, codcurso)
+values (3, "Carlos", "Posto", "Belo Horizonte", "Minas Gerais", 123, "Masculino", "2023/01/04", 3);
+
+insert alunos (codaluno, nome, endereco, cidade, estado, telefone, sexo, datanascimento, codcurso)
+values (4, "Caues", "Posto", "BH", "Minas Gerais", 134, "Feminino", "2023/06/02", 3);
+
+-----------------------------------------------------------------
+
+insert projetos (codprojeto, dataincial, datafinal, tema, codaluno, codprofessor, nota)
+values(1, "2023/05/04", "2023/06/04", "Jogo", 1,1,10);
+
+insert projetos (codprojeto, dataincial, datafinal, tema, codaluno, codprofessor, nota)
+values(2, "2023/05/04", "2023/06/04", "Jogo Educativo", 2,2,8.5);
+
+insert projetos (codprojeto, dataincial, datafinal, tema, codaluno, codprofessor, nota)
+values(3, "2023/05/04", "2023/06/04", "Moda", 3,3,9);
+
+insert projetos (codprojeto, dataincial, datafinal, tema, codaluno, codprofessor, nota)
+values(4, "2023/05/04", "2023/06/04", "Jogo", 4,2,7);
+
+-----------------------------------------------------------------
+01) – Listar todo os campos da tabela cursos;
+
+Select * from cursos;
+-----------------------------------------------------------------
+02) – Listar todos os campos da tabela coordenadores;
+
+Select * from coordenadores;
+-----------------------------------------------------------------
+03) – Listar todos os campos da tabela disciplinas;
+
+Select * from disciplinas;
+-----------------------------------------------------------------
+04) – Listar todos os campos da tabela professores;
+
+Select * from professores;
+-----------------------------------------------------------------
+05) - Pesquisar nome do cursos e nome dos seus respectivos coordenadores
+
+select curso.nome, coordenadores.nome
+from curso, coordenadores
+where curso.codcurso = coordenadores.codcurso;
+
+-----------------------------------------------------------------
+06) - Pesquisar nome das disciplinas e nome dos seus respectivos professores
+
+select disciplinas.nome, professores.nome
+from disciplinas, professores
+where disciplinas.coddisciplina = professores.coddisciplina;
+
+-----------------------------------------------------------------
+07) - Pesquisar nome dos alunos e nome dos seus respectivos cursos
+
+select alunos.nome, curso.nome
+from alunos, curso
+where curso.codcurso = alunos.codcurso;
+
+--------------------------------------------------------------------------------------------------------------------------------
+08) - Pesquisar tema dos projetos e nome dos seus respectivos alunos e professores 
+
+select projetos.tema, alunos.nome, professores.nome 
+from projetos, alunos, professores
+where projetos.codaluno = alunos.codaluno
+and projetos.codprofessor = professores.codprofessor;
+
+--------------------------------------------------------------------------------------------------------------------------------
+09) - Pesquisar codigo, nome do cursos e codigo, nome dos seus respectivos coordenadores
+
+select cursos.codcurso, cursos.nome, coordenadores.codcoordenador, coordenadores.nome
+from cursos, coordenadores
+where cursos.codcurso =  coordenadores.codcurso; 
+
+--------------------------------------------------------------------------------------------------------------------------------
+10) - Pesquisar codigo, nome das disciplinas e nome, telefone dos seus respectivos professores
+
+select disciplinas.coddisciplina, disciplinas.nome, professores.codprofessor, professores.nome 
+from disciplinas, professores
+where disciplinas.coddisciplina = professores.coddisciplina;
+
+--------------------------------------------------------------------------------------------------------------------------------
+11) - Pesquisar codigo, nome, telefone dos alunos e codigo, nome dos seus respectivos cursos
+
+select alunos.codaluno, alunos.nome, alunos.telefone, 
+cursos.codcurso, cursos.nome 
+from alunos, cursos
+where cursos.codcurso = alunos.codcurso;
+
+--------------------------------------------------------------------------------------------------------------------------------
+12) - Pesquisar codigo, tema, datainicial dos projetos e codigo, nome dos seus respectivos alunos e codigo, nome dos seus professores
+
+select projetos.codprojeto,  projetos.tema, projetos.datainicial, alunos.codaluno ,alunos.nome, professores.codprofessor, professores.nome 
+from projetos, alunos, professores
+where projetos.codaluno = alunos.codaluno
+and projetos.codprofessor = professores.codprofessor;
+
+--------------------------------------------------------------------------------------------------------------------------------
+13) - Pesquisar codigo, nome do cursos e codigo, nome dos seus respectivos coordenadores e disciplinas
+
+select cursos.codcurso, cursos.nome, coordenadores.codcoordenador, coordenadores.nome, disciplinas.coddisciplina, disciplinas.nome
+from cursos, coordenadores, disciplinas
+where cursos.codcurso =  coordenadores.codcurso
+and cursos.codcurso = disciplinas.codcurso; 
+
+--------------------------------------------------------------------------------------------------------------------------------
+14) - Pesquisar codigo, nome do cursos e codigo, nome dos seus respectivos alunos e disciplinas
+
+select cursos.codcurso, cursos.nome , alunos.codaluno, alunos.nome, 
+disciplinas.coddisciplina, disciplinas.nome
+from cursos, alunos, disciplinas
+where cursos.codcurso = alunos.codcurso
+And cursos.codcurso = disciplinas.codcurso;
+
+--------------------------------------------------------------------------------------------------------------------------------
+15) - Pesquisar codigo, nome do cursos e codigo, nome dos seus respectivos coordenadores, disciplinas e alunos
+
+select cursos.codcurso, cursos.nome , coordenadores.codcoordenador, coordenadores.nome, alunos.codaluno, alunos.nome, 
+disciplinas.coddisciplina, disciplinas.nome
+from cursos, coordenadores, alunos, disciplinas
+where cursos.codcurso = alunos.codcurso
+and cursos.codcurso = disciplinas.codcurso
+and cursos.codcurso = coordenadores.codcurso;
+
+--------------------------------------------------------------------------------------------------------------------------------
+16) - Pesquisar codigo, nome, telefone, cidade dos alunos e codigo, nome dos seus respectivos cursos, dos alunos que moram cidade de Criciúma
+
+select alunos.codaluno, alunos.nome, alunos.telefone,  alunos.cidade,
+cursos.codcurso, cursos.nome 
+from alunos, cursos
+where cursos.codcurso = alunos.codcurso
+And alunos.cidade = ´Criciúma´;
+
+--------------------------------------------------------------------------------------------------------------------------------
+17) - Pesquisar codigo, nome, telefone,cidade, estado dos alunos e codigo, nome dos seus respectivos cursos, dos alunos que moram estado SC
+
+select alunos.codaluno, alunos.nome, alunos.telefone, alunos.cidade, alunos.estado, cursos.codcurso, cursos.nome 
+from alunos, cursos
+where cursos.codcurso = alunos.codcurso
+And alunos.estado = ´SC´;
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+18) - Pesquisar codigo, nome, telefone dos alunos e codigo, nome dos seus respectivos cursos, dos alunos do sexo feminino.
+
+select alunos.codaluno, alunos.nome, alunos.telefone, alunos.sexo, cursos.codcurso, cursos.nome 
+from alunos, cursos
+where cursos.codcurso = alunos.codcurso
+And alunos.sexo = “Feminino”; 
+
+--------------------------------------------------------------------------------------------------------------------------------
+19) - Pesquisar codigo, nome do cursos e codigo, nome, cidade dos seus respectivos coordenadores que moram na cidade de Içara no estado de SC
+
+select cursos.codcurso, cursos.nome, coordenadores.codcoordenador, coordenadores.nome, coordenadores.cidade
+from cursos, coordenadores
+where cursos.codcurso = coordenadores.codcurso
+and coordenadores.estado = "SC"
+and coordenadores.cidade = "Içara"
+--------------------------------------------------------------------------------------------------------------------------------
+20) - Pesquisar codigo, nome das disciplinas e codigo, nome, telefone, cidade dos seus respectivos professores que moram no endereço Centro na cidade de Criciuma.
+
+select diciplinas.coddisciplina, diciplinas.nome, professores.codprofessor, professores.nome, professores.telefone, professores.endereco, professores.cidade
+from disciplinas, professores
+where disciplina.coddisciplina = professores.coddisciplina
+and professores.endereco = "Centro"
+and professores.cidade = "Criciuma"
+
+--------------------------------------------------------------------------------------------------------------------------------
+21) - Pesquisar codigo, nome das disciplinas e codigo, nome, telefone, cidade dos seus respectivos professores que possuem 
+escolaridade Mestrado e moram na cidade de Araranguá
+
+select disciplinas.coddisciplina, disciplinas.nome, professores.codprofessor, professores.nome, professores.telefone, professores.cidade, professores.escolaridade
+from disciplinas, professores
+where disciplinas.coddisciplina = professores.coddisciplina
+And  professores.cidade = ´Araranguá´
+And professores.escolaridade = ´Mestrado´;
+
+--------------------------------------------------------------------------------------------------------------------------------
+22) - Pesquisar codigo, tema dos projetos e codigo, nome dos seus respectivos alunos que moram na cidade de Criciuma e codigo, nome dos seus respectivos 
+professores que moram na cidade de Içara 
+
+select projetos.codprojeto, projetos.tema, alunos.codaluno, alunos.nome, alunos.cidade, professores.codprofessor, professores.nome, professores.cidade
+from projetos, alunos, professores
+where projetos.codprofessor = professores.codprofessor
+And projetos.codaluno = alunos.codaluno
+And  alunos.cidade = ´Criciúma´  
+And  professores.cidade = ´Içara´;
+
+--------------------------------------------------------------------------------------------------------------------------------
+23) - Pesquisar codigo, tema, datainicial dos projetos que possuem tema “Jogos” e codigo, nome dos seus respectivos alunos e codigo, nome dos seus professores
+
+select projetos.codprojeto, projetos.tema, projetos.datainicial, alunos.codaluno, alunos.nome, professores.codprofessor, professores.nome
+from projetos, alunos, professores
+where projetos.codprofessor = professores.codprofessor
+And projetos.codaluno = alunos.codaluno
+And  projetos.tema like ´%Jogos%´;
+--------------------------------------------------------------------------------------------------------------------------------
+24) - Pesquisar codigo, nome do cursos e codigo, nome dos seus respectivos coordenadores que moram Endereço Centro na cidade de Criciuma 
+e e codigo, nome de suas disciplinas com carga horário 3 aulas
+
+select cursos.codcurso, cursos.nome, coordenadores.codcoordenador, coordenadores.nome, coordenadores.cidade, disciplinas.coddisciplina, disciplinas.nome
+from cursos, coordenadores, disciplinas
+where cursos.codcurso = coordenadores.codcurso
+And cursos.codcurso = disciplinas.codcurso
+And coordenadores.endereco = ´Centro´  
+and coordenadores.cidade = ´Criciuma´ 
+And disciplinas.cargahoraria = 3;
+
+--------------------------------------------------------------------------------------------------------------------------------
+25) - Pesquisar codigo, nome do cursos e codigo, nome dos seus respectivos alunos que mora cidade Criciuma  e codigo, nome das suas 
+disciplinas que possuem ementa “Jogos”
+
+select cursos.codcurso, cursos.nome, alunos.codaluno, alunos.nome, alunos.cidade, disciplinas.coddisciplina, disciplinas.nome, disciplinas.ementa
+from cursos, alunos, disciplinas
+where cursos.codcurso = alunos.codcurso
+And cursos.codcurso = disciplinas.codcurso
+And alunos.cidade = ´Criciuma´ 
+And disciplinas.ementa like ´%jogos%`;
+
+--------------------------------------------------------------------------------------------------------------------------------
+26) - Pesquisar codigo, nome do cursos e codigo, nome dos seus respectivos coordenadores que moram na cidade de Criciuma, 
+e codigo, nome das disciplinas  que possuem carga horaria 5 aulas e e codigo, nome dos alunos da cidade de Criciuma e estado SC
+
+select cursos.codcurso, cursos.nome, coordenadores.codcoordenador, coordenadores.nome, alunos.codaluno, alunos.nome, alunos.cidade, disciplinas.coddisciplina, disciplinas.nome, disciplinas.ementa
+from cursos, coordenadores, alunos, disciplinas
+where cursos.codcurso = alunos.codcurso
+And cursos.codcurso = coordenadores.codcurso
+And cursos.codcurso = disciplinas.codcurso
+And coordenadores.cidade = ´Criciuma´  And disciplinas.cargahoraria = 5
+And alunos.cidade = ´Criciuma´  and alunos.estado = ´SC´;
+
+--------------------------------------------------------------------------------------------------------------------------------
+27) - Pesquisar codigo, tema, datainicial, data final dos projetos que possuem tema “Jogos”, e com data inicial no mês de setembro de 
+2023 e codigo, nome dos seus respectivos alunos e codigo, nome dos seus professores que moram cidade Criciuma
+
+select projetos.codprojeto, projetos.tema, projetos.datainicial, projetos.datafinal, projetos.tema, alunos.codaluno, alunos.nome, professores.codprofessor, professores.nome, professores.cidade
+from projetos, alunos, professores
+where projetos.codaluno = alunos.codaluno
+And projetos.codprofessor = professores.codprofessor
+And projetos.tema like ´%jogos%´
+And projetos.datainicial >= ´2023/09/01´
+And professores.cidade = ´Criciuma´;
+
+--------------------------------------------------------------------------------------------------------------------------------
+28) - Pesquisar codigo, tema, nota dos projetos que possuem tema “Financeiro”, e com data inicial no ano 2023 e codigo, 
+nome dos seus respectivos alunos e codigo, nome dos seus professores
+
+select projetos.codprojeto, projetos.tema, projetos.datainicial, projetos.tema, alunos.codaluno, alunos.nome, professores.codprofessor, professores.nome
+from projetos, alunos, professores
+where projetos.codaluno = alunos.codaluno
+And projetos.codprofessor = professores.codprofessor
+And projetos.tema like ´%Financeiro%´
+And projetos.datainicial >= ´2023/01/01´
+And projetos.datainicial <= ´2023/12/31´;
+--------------------------------------------------------------------------------------------------------------------------------
+29) - Pesquisar codigo, tema, data final, nota dos projetos que possuem tema “Portifolio”, e com data final entre agosto e outubro de 2023 e codigo, 
+nome dos seus respectivos alunos e codigo, nome dos seus professores
+
+select projetos.codprojeto, projetos.tema, projetos.datainicial, projetos.datafinal, projetos.tema, alunos.codaluno, alunos.nome, professores.codprofessor, professores.nome
+from projetos, alunos, professores
+where projetos.codaluno = alunos.codaluno
+And projetos.codprofessor = professores.codprofessor
+And projetos.tema like ´%Portifolio%´
+And projetos.datainicial >= ´2023/08/01´
+And projetos.datainicial <= ´2023/10/31´;
+
+--------------------------------------------------------------------------------------------------------------------------------
+30) - Pesquisar codigo, tema, data inicial, data final, nota dos projetos que possuem tema “Jogos” e com nota acima de 8 e codigo, 
+nome dos seus respectivos alunos que moram na cidade de Içara e codigo, nome dos seus professores que possuem escolaridade Mestrado
+
+select projetos.codprojeto, projetos.tema, projetos.datainicial, projetos.datafinal, projetos.tema, alunos.codaluno, alunos.nome, professores.codprofessor, professores.nome
+from projetos, alunos, professores
+where projetos.codaluno = alunos.codaluno
+And projetos.codprofessor = professores.codprofessor
+And projetos.tema like ´%Jogos%´
+And projetos.nota >= 8  And alunos.cidade = ´Içara´
+And professores.escolaridade = ´Mestrado´;
+

@@ -1,0 +1,225 @@
+-------------------- EXERCICIO 1 --------------------------
+
+create table clientes(
+cpfcliente int (10) not null,
+nome varchar(50) not null,
+enderaco varchar(50) not null,
+cidade varchar(50) not null,
+estado varchar(50) not null,
+telefone int(10) not null,
+primary key(cpfcliente));
+
+create table produtos(
+codigoproduto int (5) not null,
+nome varchar(50) not null,
+tamanho int (2) not null,
+cor varchar(50) not null,
+marca varchar(50) not null,
+quantidade int (5) not null,
+preco float (6,2) not null,
+primary key(codigoproduto));
+
+create table vendas(
+codigo int (5) not null,
+data date not null,
+cpfcliente int (10) not null,
+codigoproduto int (5) not null,
+quantidade int (5) not null,
+valor float (6,2) not null,
+primary key(codigo),
+foreign key (cpfcliente) references clientes (cpfcliente),
+foreign key (codigoproduto) references produtos (codigoproduto));
+
+-------------------- EXERCICIO 2 --------------------------
+
+1) insert's tabela produtos
+
+insert produtos (codigoproduto, nome, tamanho, cor, marca, quantidade, preco)
+values (2, "Tênis", 40, "azul", "adidas", 10, 265.00);
+
+insert produtos (codigoproduto, nome, tamanho, cor, marca, quantidade, preco)
+values (7, "Chinelo", 36, "preto", "mormaii", 12, 70.00);
+
+insert produtos (codigoproduto, nome, tamanho, cor, marca, quantidade, preco)
+values (8, "Tênis", 41, "branco", "havaianas", 5, 70.00);
+-----------------------------------------------------------
+
+2) insert's tabela clientes
+
+insert clientes (cpfcliente, nome, enderaco, cidade, estado, telefone)
+values (54231, "Carlos Telles", "Centro", "Araranguá", "SC", 1122);
+
+insert clientes (cpfcliente, nome, enderaco, cidade, estado, telefone)
+values (43234, "Guilherme Biava", "Centro", "Osasco", "SP", 9988);
+
+insert clientes (cpfcliente, nome, enderaco, cidade, estado, telefone)
+values (97650, "Simoni dos Santos", "Centro", "diamantina", "MG", 6644);
+
+-----------------------------------------------------------
+
+3) insert's tabela vendas
+
+insert vendas (codigo, data, cpfcliente, codigoproduto, quantidade, valor)
+values (1, "2023/09/23", 54231, 4, 1, 275.00);
+
+insert vendas (codigo, data, cpfcliente, codigoproduto, quantidade, valor)
+values (2, "2023/09/22", 43234, 5, 1, 285.00);
+
+insert vendas (codigo, data, cpfcliente, codigoproduto, quantidade, valor)
+values (3, "2023/09/24", 97650, 2, 1, 285.00);
+
+-------------------- EXERCICIO 3 --------------------------
+a) inserir mais 2 registros na tabela produtos
+
+insert produtos (codigoproduto, nome, tamanho, cor, marca, quantidade, preco)
+values (4, "Tênis", 40, "azul", "adidas", 10, 265.00);
+
+insert produtos (codigoproduto, nome, tamanho, cor, marca, quantidade, preco)
+values (5, "Tênis", 38, "vermelho", "nike", 10, 285.00);
+-----------------------------------------------------------
+b) inserir mais 2 registros na tabela clientes
+
+insert clientes (cpfcliente, nome, enderaco, cidade, estado, telefone)
+values (12345, "Ana Maria", "Centro", "Araranguá", "SC", 1122);
+
+insert clientes (cpfcliente, nome, enderaco, cidade, estado, telefone)
+values (67890, "André Luiz", "Centro", "Tubarão", "SC", 3344);
+
+-----------------------------------------------------------
+c) inserir mais 2 registros na tabela vendas
+
+insert vendas (codigo, data, cpfcliente, codigoproduto, quantidade, valor)
+values (4, "2023/09/20", 12345, 4, 1, 275.00);
+
+insert vendas (codigo, data, cpfcliente, codigoproduto, quantidade, valor)
+values (5, "2023/09/22", 12345, 5, 1, 285.00);
+
+-----------------------------------------------------------
+d) Comando para alterar o registro de cpf 12345 na tabela clientes, alterar o campo cidade para o novo "Içara"
+
+Update clientes set cidade = "Içara"
+where cpfcliente = 12345;
+
+-----------------------------------------------------------
+e) Comando para alterar o registro de codigo = 4 na tabela produtos, alterar o campo preço antigo para o novo 275.00
+
+Update produtos set preco = 275.00
+where codigoproduto = 4;
+
+-----------------------------------------------------------
+f) Comando para alterar o registro de codigo = 5 na tabela produtos, alterar o campo tamanho para o novo 36
+
+Update produtos set tamanho = 36
+where codigoproduto = 5;
+
+-----------------------------------------------------------
+g) Comando para pesquisar cpf, nome e telefone dos registros da tabela clientes da cidade de Tubarão
+
+select clientes.cpfcliente, clientes.nome, clientes.telefone
+from clientes
+where clientes.cidade = "Tubarão";
+
+-----------------------------------------------------------
+h) Comando para pesquisar codigo, nome, quantidade e preco dos registros da tabela produtos com tamanho 38
+
+select produtos.codigoproduto, produtos.nome, produtos.quantidade, produtos.preco
+from produtos
+where produtos.tamanho = 38;
+
+-----------------------------------------------------------
+i)  Comando para pesquisar campos da tabela clientes onde o nome for "Ana" e que moram na cidade de Içara
+
+select clientes.cpfcliente, clientes.nome, clientes.enderaco, clientes.cidade, clientes.estado, clientes.telefone
+from clientes
+where clientes.nome = "Ana"
+and clientes.cidade = "Içara";
+
+-----------------------------------------------------------
+j) Comando para pesquisar campos da tabela vendas realizadas no mês de setembro
+
+select vendas.codigo, vendas.data, vendas.cpfcliente, vendas.codigoproduto, vendas.quantidade, vendas.valor
+from vendas
+where vendas.data >= "2023/09/01"
+and vendas.data <= "2023/09/30";
+
+-----------------------------------------------------------
+k) Comando para pesquisar campos da tabela vendas realizadas com quantidade acima de 5
+
+select vendas.codigo, vendas.data, vendas.cpfcliente, vendas.codigoproduto, vendas.quantidade, vendas.valor
+from vendas
+where vendas.quantidade > 5;
+
+-----------------------------------------------------------
+l) Comando para pesquisar soma total do valor na tabela vendas, realizadas no ano de 2023
+
+select sum(valor) from vendas
+where data >= 2023/01/01
+and data <= 2023/12/31
+
+-----------------------------------------------------------
+m)  Comando para pesquisar campos da tabela vendas, realizadas para o cliente "Ana Maria" no ano de 2023
+
+select vendas.codigo, vendas.data, vendas.cpfcliente, vendas.codigoproduto, vendas.quantidade, vendas.valor
+from vendas, clientes
+where clientes.nome = "Ana Maria"
+and clientes.cpfcliente = vendas.cpfcliente
+and data >= 2023/01/01
+and data <= 2023/12/31;
+-----------------------------------------------------------
+n) Comandos para pesquisar campos da tabela vendas, realizadas do produto "Tênis" no ano de 2023 da marca adidas
+
+select vendas.codigo, vendas.data, vendas.cpfcliente, vendas.codigoproduto, vendas.quantidade, vendas.valor
+from vendas, produtos
+where produtos.nome = "Tênis"
+and produtos.marca = "adidas"
+and data >= 2023/01/01
+and data <= 2023/12/31;
+
+-----------------------------------------------------------
+o) Comandos para pesquisar campos da tabela vendas, realizadas do produto "Tênis" no periodo de julho a agosto de 2023 da marca nike
+
+select vendas.codigo, vendas.data, vendas.cpfcliente, vendas.codigoproduto, vendas.quantidade, vendas.valor
+from vendas, produtos
+where produtos.nome = "Tênis"
+and produtos.marca = "nike"
+and data >= 2023/07/01
+and data <= 2023/08/31;
+-----------------------------------------------------------
+p) Comandos para pesquisar campos da tabela vendas, realizadas do produto marca adidas, no ano de 2023 para o cliente "André"
+
+select vendas.codigo, vendas.data, vendas.cpfcliente, vendas.codigoproduto, vendas.quantidade, vendas.valor
+from vendas, produtos, clientes
+where produtos.marca = "adidas"
+and clientes.nome = "André"
+and data >= 2023/01/01
+and data <= 2023/12/31;
+-----------------------------------------------------------
+q) Comandos para pesquisar campos da tabela vendas, realizadas do produto "Tênis" nos tamanhos 39 e 40 da marca nike com valor maior que 250.00
+
+select vendas.codigo, vendas.data, vendas.cpfcliente, vendas.codigoproduto, vendas.quantidade, vendas.valor
+from vendas, produtos
+where produtos.nome = "Tênis"
+and produtos.tamanho = 39
+and produtos.tamanho = 40
+and produtos.marca = "nike"
+and produtos.preco > 250.00;
+-----------------------------------------------------------
+r) Comandos para pesquisar campos da tabela vendas , realizadas do produto "Chinelo" da marca adidas com quantidade maior que 5, no ano de 2032 para o cliente "Ana"
+
+select vendas.codigo, vendas.data, vendas.cpfcliente, vendas.codigoproduto, vendas.quantidade, vendas.valor
+from vendas, produtos, clientes
+where produtos.nome = "Chinelo"
+and produtos.marca = "adidas"
+and produtos.quantidade > 5
+and data >= 2023/01/01
+and data <= 2023/12/31
+and clientes.nome = "Ana";
+-----------------------------------------------------------
+s) Comandos para pesquisar campos da tabela vendas, realizadas do produto "Tênis" da marca adidas com preço acima de 200.00, para os clientes da cidade de Osasco
+
+select vendas.codigo, vendas.data, vendas.cpfcliente, vendas.codigoproduto, vendas.quantidade, vendas.valor
+from vendas, produtos, clientes
+where produtos.nome = "Tênis"
+and produtos.marca = "adidas"
+and produtos.preco > 200.00
+and clientes.cidade = "Osasco";
