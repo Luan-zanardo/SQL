@@ -1,0 +1,539 @@
+create database clinica;
+
+create table cargos (
+codigo    int(5)      not null,
+nome      varchar(25) not null,
+descricao varchar(50) not null,
+primary key (codigo));
+
+create table convenios (
+codigo      int(5)      not null,
+nome        varchar(25) not null, 
+datainicio  date        not null,
+primary key (codigo));
+
+create table funcionarios (
+codigo      int(5)      not null,
+nome        varchar(25) not null,
+rg          int(10)     not null,
+cpf         int(10)     not null,
+codcargo    int(5)      not null,
+endereco    varchar(30) not null,
+numero	    int(5)      not null,
+complemento varchar(30) not null,
+bairro      varchar(30) not null,
+cep         int(8)      not null,
+residencial int(10)     not null,
+celular     int(10)     not null,
+primary key (codigo),
+foreign key (codcargo) references cargos (codigo));
+
+create table medicos (
+codigo         int(5)      not null,
+nome           varchar(25) not null,
+rg             int(10)     not null,
+cpf            int(10)     not null,
+crm            int(10)     not null,
+area           varchar(25) not null,
+especialidade  varchar(25) not null,
+usuario        varchar(10) not null,
+senha          varchar(10) not null,
+flag           varchar(5)  not null,
+contador       int(5)      not null,
+primary key (codigo));
+
+
+create table tipos (
+codigo   int(5)      not null,
+nome     varchar(25) not null,
+valor    float(6,2)  not null,
+primary key (codigo));
+
+
+create table exames (
+codigo      int(5)      not null,
+nome        varchar(25) not null,
+observacao  varchar(50) not null,
+primary key (codigo));
+
+
+create table medicamentos (
+codigo            int(5)      not null,
+nome              varchar(25) not null,
+substancia        varchar(25) not null,
+posologia         varchar(50) not null,
+laboratorio       varchar(25) not null,
+contraindicacoes  varchar(50) not null,
+primary key (codigo));
+
+
+create table pacientes (
+codigo      int(5)      not null,
+nome        varchar(25) not null,
+rg          int(10)     not null,
+cpf         int(10)     not null,
+cidade      varchar(50) not null,
+endereco    varchar(30) not null,
+numero	    int(5)      not null,
+complemento varchar(30) not null,
+bairro      varchar(30) not null,
+cep         int(8)      not null,
+residencial int(10)     not null,
+celular     int(10)     not null,
+primary key (codigo));
+
+
+create table consultas (
+codigo         int(5)   not null,
+dataconsulta   date     not null,
+horaconsulta   time     not null,
+codpaciente    int(5)   not null,
+codconvenio    int(5)   not null,
+codmedico      int(5)   not null,
+codtipo        int(5)   not null,
+primary key (codigo),
+foreign key (codpaciente) references pacientes (codigo),
+foreign key (codconvenio) references convenios (codigo),
+foreign key (codmedico) references medicos (codigo),
+foreign key (codtipo) references tipos (codigo));
+
+create table prontuarios (
+codigo         int(5)   not null,
+codpaciente    int(5)   not null,
+codmedicamento int(5)   not null,
+posologia      varchar(50) not null,
+datainicio     date        not null,
+datafim        date        not null,
+codexame       int(5)      not null,
+dataexame      date        not null,
+resultado      varchar(50) not null,
+observacoes    varchar(50) not null,
+primary key (codigo),
+foreign key (codpaciente) references pacientes (codigo),
+foreign key (codmedicamento) references medicamentos (codigo),
+foreign key (codexame) references exames (codigo));
+
+----------------------------------------------------------------------------------------------------------------
+
+insert cargos (codigo, nome, descricao)
+values (1,"Gerente","Gerente de setor");
+
+insert cargos (codigo, nome, descricao)
+values (2,"Enfermeiro","Enfermeiro PS");
+
+insert cargos (codigo, nome, descricao)
+values (3,"Fisioterapeuta","Fisiterapeuta UTI");
+
+insert cargos (codigo, nome, descricao)
+values (4,"Nutricionista","Nutricionista");
+
+----------------------------------------------------------------------------------------------------------------
+
+insert convenios (codigo, nome, datainicio)
+values (1,"Particular", "2023/01/05");
+
+insert convenios (codigo, nome, datainicio)
+values (2,"Unimed", "2023/01/05");
+
+insert convenios (codigo, nome, datainicio)
+values (3,"Saúde São José", "2023/01/05");
+
+insert convenios (codigo, nome, datainicio)
+values (4,"Socimed", "2023/01/05");
+
+----------------------------------------------------------------------------------------------------------------
+
+insert funcionarios (codigo, nome, rg, cpf, codcargo, endereco, numero, complemento, bairro, cep, residencial, celular)
+values (1,"Ana Maria", 123, 123, 1, "Rua ABC Criciuma SC",
+123, "casa", "Centro", 88800, 12345, 12345);
+
+insert funcionarios (codigo, nome, rg, cpf, codcargo, endereco, numero, complemento, bairro, cep, residencial, celular)
+values (2,"Sandra Regina", 345, 345, 2, "Rua XYZ Criciuma SC",
+345, "apartamento", "Centro", 88800, 34567, 34567);
+
+insert funcionarios (codigo, nome, rg, cpf, codcargo, endereco, numero, complemento, bairro, cep, residencial, celular)
+values (3,"Carlos Jose", 456, 456, 3, "Avenida Centenario Criciuma SC",
+456, "casa", "Pinheirinho", 88800, 45678, 45678);
+
+insert funcionarios (codigo, nome, rg, cpf, codcargo, endereco, numero, complemento, bairro, cep, residencial, celular)
+values (4,"Maria Luiza", 678, 678, 4, "Rua ABC Criciuma SC",
+678, "casa", "Prospera", 88800, 67890, 67890);
+
+----------------------------------------------------------------------------------------------------------------
+
+insert medicos (codigo, nome, rg, cpf, crm, area, especialidade, 
+usuario, senha, flag, contador)
+values (1,"Dr. Aline", 321, 321, 321, "Pediatria", "Pediatria e Imunologia",
+"aline", "321", "aline", 0);
+ 
+insert medicos (codigo, nome, rg, cpf, crm, area, especialidade, 
+usuario, senha, flag, contador)
+values (2,"Dr. Giovane", 654, 654, 654, "Ortopedia", "Ortopedia Infantil",
+"giovane", "654", "giovane", 0);
+
+insert medicos (codigo, nome, rg, cpf, crm, area, especialidade, 
+usuario, senha, flag, contador)
+values (3,"Dr. Ana Claudia", 789, 789, 789, "Ortopedia", "Ortopedia Adulto",
+"ana", "789", "ana", 0);
+
+insert medicos (codigo, nome, rg, cpf, crm, area, especialidade, 
+usuario, senha, flag, contador)
+values (4,"Dr. Andre Luiz", 741, 741, 741, "Endocrinologista", "Endocrinologista Infantil", "andre", "741", "andre", 0);
+
+----------------------------------------------------------------------------------------------------------------
+
+insert tipos (codigo, nome, valor)
+values (1,"Particular Integral", 600.00);
+
+insert tipos (codigo, nome, valor)
+values (2,"Particular 50%", 300.00);
+
+insert tipos (codigo, nome, valor)
+values (3,"Unimed 50%", 300.00);
+
+insert tipos (codigo, nome, valor)
+values (4,"Socimed 50%", 300.00);
+
+----------------------------------------------------------------------------------------------------------------
+
+insert exames (codigo, nome, observacoes)
+values (1,"Hemograma", "Exame de sangue em Jejum");
+
+insert exames (codigo, nome, observacoes)
+values (2,"Raio-X", "sem obs");
+
+insert exames (codigo, nome, observacoes)
+values (3,"Ultrassonografia", "sem obs");
+
+insert exames (codigo, nome, observacoes)
+values (4,"Tomografia", "sem obs");
+
+----------------------------------------------------------------------------------------------------------------
+
+insert medicamentos (codigo,nome,substancia,posologia,laboratorio,contraindicacoes)
+values (1,"Paracetamol 500mg", "Paracetamol", "1 comprimido a cada 8 horas",
+"Laboratorio Bayer", "uso moderado para dor");
+
+insert medicamentos (codigo,nome,substancia,posologia,laboratorio,contraindicacoes)
+values (2,"Dipirona", "Dipirona", "30 gotas a cada 6 horas",
+"Laboratorio Aché", "uso moderado para febre");
+
+insert medicamentos (codigo,nome,substancia,posologia,laboratorio,contraindicacoes)
+values (3,"Vitamina C", "Vitamina C", "1 comprimido ao dia",
+"Laboratorio Eurofarma", "uso controlado");
+
+insert medicamentos (codigo,nome,substancia,posologia,laboratorio,contraindicacoes)
+values (4,"Buscopan", "Buscopan", "30 gotas a cada 6 horas",
+"Laboratorio Bayer", "uso moderado para cólicas/dor");
+
+----------------------------------------------------------------------------------------------------------------
+insert pacientes (codigo,nome,rg,cpf,endereco,numero,complemento,bairro,
+cep,residencial,celular)
+values (1,"Ana Maria",123,123,"Rua ABC",123,"Criciuma","Centro",88800123,123,123); 
+
+insert pacientes (codigo,nome,rg,cpf,endereco,numero,complemento,bairro,
+cep,residencial,celular)
+values (2,"Maria Luiza",345,345,"Rua XYZ",345,"Criciuma","Prospera",88800345,345,345); 
+
+insert pacientes (codigo,nome,rg,cpf,endereco,numero,complemento,bairro,
+cep,residencial,celular)
+values (3,"Carlos Jose",567,567,"Rua ABC",567,"Içara","Centro",88800567,567,567);
+
+insert pacientes (codigo,nome,rg,cpf,endereco,numero,complemento,bairro,
+cep,residencial,celular)
+values (4,"Antonio Carlos",678,678,"Rua XYZ",678,"Içara","Pres.Vargas",88800678,678,678);
+
+----------------------------------------------------------------------------------------------------------------
+
+insert consultas (codigo,dataconsulta,horaconsulta,codpaciente,codconvenio,codmedico,codtipo)
+values (1,"2023/10/01","08:00",1,1,1,1);
+
+insert consultas (codigo,dataconsulta,horaconsulta,codpaciente,codconvenio,codmedico,codtipo)
+values (2,"2023/10/01","10:00",2,1,3,1);
+
+insert consultas (codigo,dataconsulta,horaconsulta,codpaciente,codconvenio,codmedico,codtipo)
+values (3,"2023/10/05","14:00",1,1,2,1);
+
+insert consultas (codigo,dataconsulta,horaconsulta,codpaciente,codconvenio,codmedico,codtipo)
+values (4,"2023/10/05","15:00",3,2,1,2);
+
+insert consultas (codigo,dataconsulta,horaconsulta,codpaciente,codconvenio,codmedico,codtipo)
+values (5,"2023/10/10","10:00",4,1,3,2);
+
+insert consultas (codigo,dataconsulta,horaconsulta,codpaciente,codconvenio,codmedico,codtipo)
+values (6,"2023/10/15","13:00",2,1,2,1);
+
+----------------------------------------------------------------------------------------------------------------
+
+insert prontuarios (codigo,codpaciente,codmedicamento,posologia,datainicio,datafim,
+codexame,dataexame,resultado,observacoes)
+values (1,1,2,"30 gotas a cada 6 horas","2023/10/01","2023/10/03",
+2,"2023/10/01","dores de cabeça - sinusite","retorno em 30 dias");
+
+insert prontuarios (codigo,codpaciente,codmedicamento,posologia,datainicio,datafim,
+codexame,dataexame,resultado,observacoes)
+values (2,2,1,"1 coprimido a cada 8 horas","2023/10/01","2023/10/02",
+2,"2023/10/01","dores de cabeça","retorno em 30 dias");
+
+insert prontuarios (codigo,codpaciente,codmedicamento,posologia,datainicio,datafim,
+codexame,dataexame,resultado,observacoes)
+values (3,2,1,"1 coprimido a cada 6 horas","2023/10/05","2023/10/07",
+1,"2023/10/05","anemia - falta vitaminas","retorno em 60 dias");
+
+insert prontuarios (codigo,codpaciente,codmedicamento,posologia,datainicio,datafim,
+codexame,dataexame,resultado,observacoes)
+values (4,3,1,"1 coprimido a cada 6 horas","2023/10/05","2023/10/07",
+2,"2023/10/05","dores de cabeça","retorno em 30 dias");
+
+insert prontuarios (codigo,codpaciente,codmedicamento,posologia,datainicio,datafim,
+codexame,dataexame,resultado,observacoes)
+values (5,4,2,"30 gotas a cada 6 horas","2023/10/10","2023/10/12",
+2,"2023/10/10","dores de cabeça","retorno em 60 dias");
+
+insert prontuarios (codigo,codpaciente,codmedicamento,posologia,datainicio,datafim,
+codexame,dataexame,resultado,observacoes)
+values (6,2,4,"30 gotas a cada 6 horas","2023/10/15","2023/10/16",
+3,"2023/10/15","cólicas","retorno em 60 dias");
+
+----------------------------------------------------------------------------------------------------------------
+
+1- Consultar todos os campos da tabela cargos
+
+SELECT * FROM cargos;
+
+----------------------------------------------------------------------------------------------------------------
+
+2- Consultar codigo e nome da tabela convênios
+
+SELECT codigo, nome FROM convenios;
+
+----------------------------------------------------------------------------------------------------------------
+
+3- Consultar codigo e nome, rg, cpf da tabela funcionarios
+
+SELECT codigo, nome, rg, cpf FROM funcionarios;
+
+----------------------------------------------------------------------------------------------------------------
+
+4- Consultar codigo, nome, nome cargo da tabela funcionarios
+
+SELECT funcionarios.codigo, funcionarios.nome, cargos.nome 
+from funcionarios, cargos
+Where funcionarios.codcargo = cargos.codigo;
+
+----------------------------------------------------------------------------------------------------------------
+5- Consultar codigo, nome, crm, especialidade da tabela médicos
+
+SELECT codigo, nome, crm, especialidade
+FROM medicos;
+
+----------------------------------------------------------------------------------------------------------------
+
+6- Consultar  codigo, nome e valor da tabela tipos-consultas
+
+SELECT codigo, nome, valor
+FROM tipos;
+
+----------------------------------------------------------------------------------------------------------------
+
+7- Consultar  codigo, nome e observação da tabela exames
+
+SELECT codigo, nome, observacoes
+FROM exames;
+
+----------------------------------------------------------------------------------------------------------------
+
+8- Consultar  codigo, nome e laboratório da tabela medicamentos
+
+SELECT codigo, nome, laboratorio
+FROM medicamentos;
+
+----------------------------------------------------------------------------------------------------------------
+
+9- Consultar nome, CPF, telefone celular e residencial da tabela pacientes
+
+SELECT nome, cpf, celular, residencial
+FROM pacientes;
+
+----------------------------------------------------------------------------------------------------------------
+
+10- Consultar codigo, data, horário, cod medico da tabela consultas
+
+SELECT codigo, dataconsulta, horaconsulta, codmedico
+FROM consultas;
+
+----------------------------------------------------------------------------------------------------------------
+
+11- Consultar codigo, data inicio, cod paciente observação da tabela prontuários
+
+SELECT codigo, datainicio, codpaciente, observacoes
+FROM prontuarios;
+
+----------------------------------------------------------------------------------------------------------------
+
+12- Consultar todos os campos da tabela cargos onde nome é “Enfermeira”
+
+SELECT *
+FROM cargos
+WHERE nome = 'Enfermeira';
+
+----------------------------------------------------------------------------------------------------------------
+
+13- Consultar codigo, nome e data da tabela convênios que iniciaram com letra “U”
+
+SELECT codigo, nome, datainicio
+FROM convenios
+WHERE nome LIKE 'U%';
+
+----------------------------------------------------------------------------------------------------------------
+
+14- Consultar codigo, nome, cpf da tabela funcionarios que possuem nome “Maria”
+
+SELECT codigo, nome, cpf
+FROM funcionarios
+WHERE nome = 'Maria';
+
+----------------------------------------------------------------------------------------------------------------
+
+15- Consultar codigo, nome, celular da tabela funcionarios que possuem cargo “Gerente”
+
+SELECT f.codigo, f.nome, f.celular
+FROM funcionarios f
+INNER JOIN cargos c ON f.codcargo = c.codigo
+WHERE c.nome = 'Gerente';
+
+----------------------------------------------------------------------------------------------------------------
+
+16- Consultar nome, cpf, telefone residencial da tabela funcionarios onde bairro é “Centro”
+
+SELECT nome, cpf, residencial
+FROM funcionarios
+WHERE bairro = 'Centro';
+
+----------------------------------------------------------------------------------------------------------------
+
+17- Consultar  codigo, nome, CRM da tabela médicos onde especialidade é “Pediatra”
+
+SELECT codigo, nome, CRM
+FROM medicos
+WHERE especialidade = 'Pediatra';
+
+----------------------------------------------------------------------------------------------------------------
+
+18- Consultar nome, CRM, especialidade da tabela médicos onde área é “Fisioterapia”
+
+SELECT codigo, nome, CRM
+FROM medicos
+WHERE especialidade = 'Fisioterapia';
+
+----------------------------------------------------------------------------------------------------------------
+
+19- Consultar  nome e valor da tabela tipos-consultas onde faixa de valor está entre R$ 200 e R$ 500 
+
+SELECT nome, valor
+FROM tipos
+WHERE valor >= 200.00 AND valor <= 500.00;
+
+----------------------------------------------------------------------------------------------------------------
+
+20- Consultar  codigo, nome da tabela medicamentos onde o laboratório é “Bayer”
+
+SELECT codigo, nome
+FROM medicamentos
+WHERE laboratorio = 'Bayer';
+
+----------------------------------------------------------------------------------------------------------------
+
+21- Consultar codigo, nome, telefone celular  da tabela pacientes onde o bairro é “Centro” na cidade de “Criciuma”
+
+SELECT codigo, nome, celular
+FROM pacientes
+WHERE bairro = 'Centro' AND cidade = 'Criciuma';
+
+----------------------------------------------------------------------------------------------------------------
+
+22- Consultar codigo, data, horário, cod paciente da tabela consultas onde médico é “Dra. Aline”
+
+SELECT c.codigo, c.dataconsulta, c.horaconsulta, c.codpaciente
+FROM consultas c
+INNER JOIN medicos m ON c.codmedico = m.codigo
+WHERE m.nome = 'Dr. Aline';
+
+----------------------------------------------------------------------------------------------------------------
+
+23- Consultar codigo, data inicio, data final, cod paciente da tabela prontuários realizados no mês outubro/2023
+
+SELECT codigo, datainicio, datafim, codpaciente
+FROM prontuarios
+WHERE datainicio >= '2023-10-01' AND datainicio <= '2023-10-31';
+
+----------------------------------------------------------------------------------------------------------------
+
+24- Consultar codigo, data, horário, nome medico, nome paciente da tabela consultas no mês outubro/2023
+
+SELECT c.codigo, c.dataconsulta, c.horaconsulta, m.nome AS nome_medico, p.nome AS nome_paciente
+FROM consultas c
+INNER JOIN medicos m ON c.codmedico = m.codigo
+INNER JOIN pacientes p ON c.codpaciente = p.codigo
+WHERE YEAR(c.dataconsulta) = 2023 AND MONTH(c.dataconsulta) = 10;
+
+----------------------------------------------------------------------------------------------------------------
+
+25- Consultar codigo, data, horário, nome medico, nome paciente da tabela consultas onde nome convenio é “Unimed”
+
+SELECT c.codigo, c.dataconsulta, c.horaconsulta, m.nome AS nome_medico, p.nome AS nome_paciente
+FROM consultas c
+INNER JOIN medicos m ON c.codmedico = m.codigo
+INNER JOIN pacientes p ON c.codpaciente = p.codigo
+INNER JOIN convenios cv ON c.codconvenio = cv.codigo
+WHERE cv.nome = 'Unimed';
+
+----------------------------------------------------------------------------------------------------------------
+
+26- Consultar codigo, data, horário, nome paciente da tabela consultas do tipo “Particular”
+
+SELECT c.codigo, c.dataconsulta, c.horaconsulta, p.nome AS nome_paciente
+FROM consultas c
+INNER JOIN pacientes p ON c.codpaciente = p.codigo
+INNER JOIN tipos t ON c.codtipo = t.codigo
+WHERE t.nome = 'Particular';
+
+----------------------------------------------------------------------------------------------------------------
+
+27- Consultar codigo, data, horário, nome paciente da tabela consultas onde paciente é  “maria” no mês outubro/2023
+
+SELECT c.codigo, c.dataconsulta, c.horaconsulta, p.nome AS nome_paciente
+FROM consultas c
+INNER JOIN pacientes p ON c.codpaciente = p.codigo
+WHERE p.nome = 'Maria' AND YEAR(c.dataconsulta) = 2023 AND MONTH(c.dataconsulta) = 10;
+
+----------------------------------------------------------------------------------------------------------------
+
+28- Consultar codigo, datainicio, nome paciente, nome medicamento e observações da tabela prontuários realizados no mês de outubro de 2023
+
+SELECT p.codigo, p.datainicio, pa.nome AS nome_paciente, m.nome AS nome_medicamento, p.observacoes
+FROM prontuarios p
+INNER JOIN pacientes pa ON p.codpaciente = pa.codigo
+INNER JOIN medicamentos m ON p.codmedicamento = m.codigo
+WHERE YEAR(p.datainicio) = 2023 AND MONTH(p.datainicio) = 10;
+
+----------------------------------------------------------------------------------------------------------------
+
+29- Consultar codigo, datainicio, nome paciente, data exame, nome exame e resultado da tabela prontuários realizados para o paciente “Ana” no ano de 2023
+
+SELECT p.codigo, p.datainicio, pa.nome AS nome_paciente, p.dataexame, e.nome AS nome_exame, p.resultado
+FROM prontuarios p
+INNER JOIN pacientes pa ON p.codpaciente = pa.codigo
+INNER JOIN exames e ON p.codexame = e.codigo
+WHERE pa.nome = 'Ana' AND YEAR(p.datainicio) = 2023;
+
+----------------------------------------------------------------------------------------------------------------
+
+30- Consultar codigo, datainicio, nome paciente, nome medicamento, data exame, nome exame e resultado da tabela prontuários realizados para o paciente “Maria” no período de agosto a dezembro 2023.
+
+SELECT p.codigo, p.datainicio, pac.nome AS nome_paciente, m.nome AS nome_medicamento, p.dataexame, e.nome AS nome_exame, p.resultado
+FROM prontuarios p
+INNER JOIN pacientes pac ON p.codpaciente = pac.codigo
+INNER JOIN medicamentos m ON p.codmedicamento = m.codigo
+INNER JOIN exames e ON p.codexame = e.codigo
+WHERE pac.nome = 'Maria' AND p.datainicio >= '2023-08-01' AND p.datainicio <= '2023-12-31';
