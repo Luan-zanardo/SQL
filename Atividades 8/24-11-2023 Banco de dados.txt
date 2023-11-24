@@ -1,0 +1,94 @@
+create table historico(
+codigo int(5) not null,
+codmedico int(5) not null,
+codpaciente int(5) not null,
+codfuncionario int(5) not null,
+data date not null,
+hora time not null,
+sintomas varchar(50) not null,
+parecer varchar(50) not null,
+encaminhamento varchar(50) not null,
+primary key (codigo),
+foreign key (codmedico) references medicos (codigo),
+foreign key (codpaciente) references pacientes (codigo),
+foreign key (codfuncionario) references funcionarios (codigo));
+
+----------------------------------------------------------------------------------------------------------------
+
+insert historico (codigo, codmedico, codpaciente, codfuncionario, data, hora, sintomas, parecer, encaminhamento)
+values (1, 1, 1, 1, "2023/04/08", "16:00:00", "dor de cabeça", "tumor", "cirurgia");
+
+insert historico (codigo, codmedico, codpaciente, codfuncionario, data, hora, sintomas, parecer, encaminhamento)
+values (2, 2, 2, 2, "2023/11/24", "15:00:00", "tosse", "gripe", "benegrip");
+
+insert historico (codigo, codmedico, codpaciente, codfuncionario, data, hora, sintomas, parecer, encaminhamento)
+values (3, 3, 3, 3, "2023/03/11", "12:00:00", "tontura", "gravida", "buscapan");
+
+----------------------------------------------------------------------------------------------------------------
+
+a)
+CREATE VIEW pesquisar AS
+SELECT * FROM historico;
+
+----------------------------------------------------------------------------------------------------------------
+
+b) 
+
+CREATE VIEW pesquisar2 AS
+SELECT codigo, data, hora, codpaciente
+FROM historico;
+
+----------------------------------------------------------------------------------------------------------------
+
+c) 
+
+CREATE VIEW pesquisar3 AS
+SELECT data, hora, codpaciente, codmedico, sintomas
+FROM historico;
+
+----------------------------------------------------------------------------------------------------------------
+
+d) 
+
+CREATE VIEW pesquisar4 AS
+SELECT historico.data, historico.hora, historico.codpaciente, pacientes.nome nomepaciente, historico.codmedico, medicos.nome nomemedico, historico.sintomas
+FROM historico, pacientes, medicos
+WHERE historico.codpaciente = pacientes.codigo AND historico.codmedico = medicos.codigo;
+
+----------------------------------------------------------------------------------------------------------------
+
+e)
+
+CREATE VIEW pesquisar5 AS
+SELECT historico.data, historico.hora, historico.codpaciente, pacientes.nome nomepaciente, historico.codmedico, medicos.nome nomemedico, historico.sintomas,historico.parecer
+FROM historico, pacientes, medicos
+WHERE historico.codpaciente = pacientes.codigo AND historico.codmedico = medicos.codigo AND pacientes.nome = 'MARIA';
+
+----------------------------------------------------------------------------------------------------------------
+
+f)
+
+CREATE VIEW pesquisar6 AS
+SELECT historico.data, historico.hora, historico.codpaciente, pacientes.nome nomepaciente, historico.codmedico, medicos.nome nomemedico, historico.sintomas,historico.parecer
+FROM historico, pacientes, medicos
+WHERE historico.codpaciente = pacientes.codigo AND historico.codmedico = medicos.codigo AND pacientes.nome = 'ANA' AND historico.data > '2023-11-10';
+
+----------------------------------------------------------------------------------------------------------------
+
+g) 
+
+CREATE VIEW pesquisar7 AS
+SELECT historico.data, historico.hora, historico.codpaciente, pacientes.nome nomepaciente, historico.codmedico, medicos.nome nomemedico, historico.sintomas,historico.parecer
+FROM historico, pacientes, medicos 
+WHERE historico.codpaciente = pacientes.codigo AND historico.codmedico = medicos.codigo AND pacientes.nome = 'JOAO' AND pacientes.endereco = 'Criciuma'
+AND historico.data >'2023-11-01';
+
+----------------------------------------------------------------------------------------------------------------
+
+h) 
+
+CREATE VIEW pesquisar8 AS
+SELECT historico.data, historico.hora, historico.codpaciente, pacientes.nome nomepaciente, historico.codmedico, medicos.nome nomemedico, historico.sintomas,historico.parecer
+FROM historico, pacientes, medicos
+WHERE historico.codpaciente = pacientes.codigo AND historico.codmedico = medicos.codigo AND medicos.nome = 'Dra.Giovane' AND medicos.especialidade = 'Ortopedista'
+AND historico.data >'2023-11-01';
